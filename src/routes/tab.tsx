@@ -1,14 +1,16 @@
 
 import { NavigationContainer } from '@react-navigation/native';
-import Home from '../../screens/Home';
-import CreateUser from '../../screens/CreateUser';
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Home from '../screens/Home';
+import Login from '../screens/Login';
+import CreateUser from '../screens/CreateUser';
 
 
 const Tab = createBottomTabNavigator();
 
 type TabNavigation={
   Home:undefined,
+  Login:undefined,
   CreateUser:undefined
 }
 
@@ -19,6 +21,7 @@ export default function TabComponent() {
     <NavigationContainer>
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Login" component={Login} />
       <Tab.Screen name="CreateUser" component={CreateUser} />
     </Tab.Navigator>
   </NavigationContainer>

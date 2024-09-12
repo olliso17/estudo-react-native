@@ -1,6 +1,8 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { themas } from "../../global/Themes";
 
+
+const height = Dimensions.get('window').height;
 export const styles = StyleSheet.create({
 
     container: {
@@ -11,46 +13,30 @@ export const styles = StyleSheet.create({
     },
 
     boxTop: {
-        width:"100%",
-        height:200,
-        backgroundColor:themas.colors.primaryColor,
+        width: "100%",
+        height:height * .1,
+        backgroundColor: themas.colors.primaryColor,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
 
     },
-    image:{
-        width:100,
-        height:100,
-        borderRadius:20
+    image: {
+        resizeMode: 'contain',
+        borderRadius: 20
     },
-    text:{
-        fontWeight:"bold",
-        fontSize:16,
-        paddingTop:30
-    },
-    inputText:{
-        fontSize:12,
-        marginTop:10
-    },
-    boxInput:{
-        width:"100%",
-        height:40,
-        backgroundColor:themas.colors.inputColor,
-        marginTop:10,
-        borderRadius:10
-    },
+
     boxBody: {
-        width:"100%",
-        height:200,
-        backgroundColor:themas.colors.primaryColor,
+        width: "100%",
+        height: height * .7,
+        backgroundColor: themas.colors.primaryColor,
         justifyContent: 'center',
-        padding:17
+        alignItems: "center"
 
     },
     boxFooter: {
-        width:"100%",
-        height:200,
-        backgroundColor:themas.colors.primaryColor,
+        width: "100%",
+        height: height * .1,
+        backgroundColor: themas.colors.primaryColor,
         alignItems: 'center',
         justifyContent: 'center',
 
