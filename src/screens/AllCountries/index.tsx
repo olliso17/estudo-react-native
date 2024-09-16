@@ -1,13 +1,15 @@
 import { Button, Dimensions, FlatList, Image, Pressable, SafeAreaView, ScrollView, SectionList, StyleSheet, Text, View } from "react-native";
 import useGetAllCountries from "../../hooks/getAllcountres";
 import { useEffect } from "react";
+import useGetCountre from "../../hooks/getCountre";
 
 export default function AllCountries() {
     const { countries, getAll } = useGetAllCountries();
+    const { setCapital } = useGetCountre();
 
-    countries?.map((value) => {
-        console.log(value)
-    })
+    // countries?.map((value) => {
+    //     console.log(value)
+    // })
 
     useEffect(() => {
         getAll();
@@ -15,13 +17,13 @@ export default function AllCountries() {
     }, []);
 
     return (
-        <>
-            <ScrollView style={styles.container}>
+        <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
                 {
                     countries?.map((value, index) => (
 
 
-                        <Pressable key={index} onPress={() => console.log('foi')} style={styles.body}>
+                        <Pressable key={index} onPress={() => setCapital(value["capital"])} style={styles.body}>
                             <Image source={{ uri: value["coatOfArms"]['png'] != "" ? value["coatOfArms"]['png'] : value["coatOfArms"]['svg'] }} resizeMode="contain"
                                 height={40} width={40} />
                             < Text style={styles.text}>{value['name']['common']}</Text>
@@ -34,24 +36,27 @@ export default function AllCountries() {
                     ))
                 }
             </ScrollView>
-        </>
+        </View>
+
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: "row",
-        width: "100%"
+    },
+    scroll: {
+        width: "100%",
     },
     body: {
-
-        justifyContent: "flex-start",
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
-        width: "40%",
+        width: "98%",
+        height: 60,
         borderRadius: 10,
         borderWidth: 1,
-        margin: 2,
+        margin: 4,
 
     },
     text: {
