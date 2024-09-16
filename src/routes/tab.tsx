@@ -8,7 +8,7 @@ import CreateUser from '../screens/CreateUser';
 
 const Tab = createBottomTabNavigator();
 
-type TabNavigation={
+export type TabNavigation ={
   Home:undefined,
   Login:undefined,
   CreateUser:undefined

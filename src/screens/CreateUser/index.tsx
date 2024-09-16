@@ -1,19 +1,15 @@
 import { Button, Image, Text, TextInput, View } from "react-native";
-// import { styles } from "./style";
-import {useNavigation } from '@react-navigation/native';
-import { StackTypes } from "../../routes/stack";
+import ButtonTabRoutes from "../../components/ButtonRoutes";
+import useGetAllCountries from "../../hooks/getAllcountres";
 
 export default function CreateUser() {
-    const navigation = useNavigation<StackTypes>();
-
+    const countre = useGetAllCountries();
+    console.log(countre)
     return (
         <View>
             <View>
                 <Text>Foi</Text>
-                <Button
-                    title="Home"
-                    onPress={() => navigation.navigate('Home')}
-                />
+                <ButtonTabRoutes color="blue" title="Home" screen="Home" />
             </View>
         </View>
 
