@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 export type TabNavigation ={
   Home:undefined,
   Login:undefined,
-  // Countre:undefined
+  Countre:undefined
   AllCountries:undefined
 }
 
@@ -24,7 +24,7 @@ export default function TabComponent() {
     <Tab.Navigator initialRouteName="AllCountries">
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Login" component={Login} />
-      {/* <Tab.Screen name="Countre" component={Countre} /> */}
+      <Tab.Screen name="Countre" component={Countre} />
       <Tab.Screen name="AllCountries" component={AllCountries} />
     </Tab.Navigator>
   </NavigationContainer>

@@ -5,33 +5,29 @@ import useGetCountre from "../../hooks/getCountre";
 
 export default function AllCountries() {
     const { countries, getAll } = useGetAllCountries();
-    const { setCapital } = useGetCountre();
+    const { pegaValor } = useGetCountre();
 
     // countries?.map((value) => {
     //     console.log(value)
     // })
-
+    
     useEffect(() => {
         getAll();
 
     }, []);
-
+   
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
                 {
                     countries?.map((value, index) => (
 
-
-                        <Pressable key={index} onPress={() => setCapital(value["capital"])} style={styles.body}>
+                        <Pressable key={index} onPress={() => pegaValor(value["capital"])} style={styles.body}>
                             <Image source={{ uri: value["coatOfArms"]['png'] != "" ? value["coatOfArms"]['png'] : value["coatOfArms"]['svg'] }} resizeMode="contain"
                                 height={40} width={40} />
                             < Text style={styles.text}>{value['name']['common']}</Text>
 
                         </Pressable>
-
-
-
 
                     ))
                 }
