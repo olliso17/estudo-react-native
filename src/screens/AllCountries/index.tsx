@@ -15,48 +15,49 @@ export default function AllCountries() {
     }, []);
 
     return (
-        <View style={styles.container}>
-            {
-                countries?.map((value, index) => (
-
-                    <Pressable onPress={() => console.log('foi')} style={styles.body}>
-                        <Image source={{ uri: value["coatOfArms"]['png'] != "" ? value["coatOfArms"]['png'] : value["coatOfArms"]['svg'] }} resizeMode="contain"
-                            height={40} width={40} />
-                        < Text style={styles.text}>{value['name']['common']}</Text>
-
-                    </Pressable>
+        <>
+            <ScrollView style={styles.container}>
+                {
+                    countries?.map((value, index) => (
 
 
+                        <Pressable key={index} onPress={() => console.log('foi')} style={styles.body}>
+                            <Image source={{ uri: value["coatOfArms"]['png'] != "" ? value["coatOfArms"]['png'] : value["coatOfArms"]['svg'] }} resizeMode="contain"
+                                height={40} width={40} />
+                            < Text style={styles.text}>{value['name']['common']}</Text>
 
-                ))
-            }
-        </View>
+                        </Pressable>
+
+
+
+
+                    ))
+                }
+            </ScrollView>
+        </>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-       flex:1,
-       justifyContent: "flex-start",
-       alignItems: "center",
-       flexWrap:"wrap",
-       flexDirection: "row",
-       width: "100%"
-    },
-    body:{
+        flex: 1,
         flexDirection: "row",
+        width: "100%"
+    },
+    body: {
+
         justifyContent: "flex-start",
         alignItems: "center",
-        width: Dimensions.get("screen").width/2.5,
-        borderRadius:10,
-        borderWidth:1,
-        margin:2,
-        
+        width: "40%",
+        borderRadius: 10,
+        borderWidth: 1,
+        margin: 2,
+
     },
     text: {
         fontSize: 14,
         fontWeight: "bold",
-        textDecorationLine:'line-through'
+
 
     }
 })
