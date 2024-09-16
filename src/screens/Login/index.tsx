@@ -32,7 +32,7 @@ export default function Login() {
             <View>
                 <Button
                     title="Campo de Cadastro"
-                    onPress={() => navigation.navigate('CreateUser')}
+                    onPress={() => navigation.navigate('Countre')}
                 />
             </View>
         </View>
