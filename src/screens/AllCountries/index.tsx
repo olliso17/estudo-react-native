@@ -12,23 +12,19 @@ type AllCountriesScreenProp = NativeStackNavigationProp<TabNavigation, 'AllCount
 export default function AllCountries() {
     const { countries, getAll } = useGetAllCountries();
     const navigation = useNavigation<AllCountriesScreenProp>();
-    const [refreshing, setRefreshing] = useState(false);
-
+ 
     useEffect(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 4000);
+    
         getAll();
 
     }, []);
 
     return (
         <View style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { }} />}>
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll} >
                 {
                     countries?.map((value, index) => (
-                        <Pressable key={index} onPress={() => navigation.navigate('Countre', { capital: value['capital'] })} style={styles.body}>
+                        <Pressable key={index} onPress={() => navigation.navigate('Countre', { capital: value['capital'][0]})} style={styles.body}>
                             <Image source={{ uri: value["coatOfArms"]['png'] != "" ? value["coatOfArms"]['png'] : value["coatOfArms"]['svg'] }} resizeMode="contain"
                                 height={40} width={40} />
                             < Text style={styles.text}>{value['name']['common']}</Text>

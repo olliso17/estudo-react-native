@@ -24,6 +24,7 @@ export default function TabComponent() {
       <Tab.Navigator initialRouteName="AllCountries">
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Login" component={Login} />
+        <Tab.Screen name="Countre" component={Countre} />
         <Tab.Screen name="AllCountries" component={AllCountries} />
       </Tab.Navigator>
     </NavigationContainer>

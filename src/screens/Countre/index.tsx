@@ -1,8 +1,8 @@
 import { Alert, Dimensions, Image, PermissionsAndroid, Platform, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import useGetCountre from "../../hooks/getCountre";
-import { RouteProp, useNavigation } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { TabNavigation } from "../../routes/tab";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import api from "../../server/api";
@@ -14,25 +14,42 @@ type Props = NativeStackScreenProps<StackNavigation, 'Countre'>;
 export default function Countre({ route }: Props) {
     const { capital } = route.params;
     const [countries, setCountries] = useState([]);
+    const [data, setData] = useState();
+    const [region, setRegion] = useState({
+        latitude: '',
+        longitude: '',
+        latitudeDelta: 6,
+        longitudeDelta: 6
+    });
 
     const pegaValor = async () => {
+        setRefresh(true)
         const response = await api.get(`capital/${capital}`);
         setCountries(response.data)
+     
+    }
+  
+    useFocusEffect(
+        useCallback(() => {
+            pegaValor()
+          
+        }, [capital])
+    );
+
+    const [refresh, setRefresh] = useState(false);
+    const onRefresh = ()=>{
+        setRefresh(true)
+        countries
+        setRefresh(false)
+
     }
 
-    useEffect(() => {
-        // focusMap()
-        pegaValor()
-   
-        
-    }, []);
-
-   
     return (
-        <>
+        <ScrollView  refreshControl={<RefreshControl refreshing={refresh} onRefresh={()=>onRefresh}/>}>
             {
                 countries?.map((data, index) => (
-                    <ScrollView key={index}  >
+                    
+                    <View key={index}  >
                         <View style={styles.top}>
                             <View style={styles.topImage}>
                                 <Image source={{ uri: data["coatOfArms"]['png'] }} resizeMode="contain"
@@ -51,49 +68,49 @@ export default function Countre({ route }: Props) {
                         </View>
                         <View>
 
-                            { 
-                            data['latlng'] && <MapView
-                                // ref={mapView}
-                                provider={PROVIDER_GOOGLE}
-                                style={styles.map}
-                                initialRegion={{
-                                    latitude: data['latlng'][0],
-                                    longitude: data['latlng'][1],
-                                    latitudeDelta: 6,
-                                    longitudeDelta: 6
-                                }} onMapReady={() => {
-                                    Platform.OS === 'android' ?
-                                        PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
-                                            .then(
-                                                () => {
-                                                    console.log('usuario aceitou')
-                                                }) : ''
-                                }}
-                                loadingEnabled={true}
+                            {
+                                <MapView 
+                                    // ref={mapView}
+                                    provider={PROVIDER_GOOGLE}
+                                    style={styles.map}
+                                    initialRegion={{
+                                        latitude: data['latlng'][0],
+                                        longitude: data['latlng'][1],
+                                        latitudeDelta: 6,
+                                        longitudeDelta: 6
+                                    }} onMapReady={() => {
+                                        Platform.OS === 'android' ?
+                                            PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+                                                .then(
+                                                    () => {
+                                                        console.log('usuario aceitou')
+                                                    }) : ''
+                                    }}
+                                    loadingEnabled={true}
                                 // onRegionChangeComplete={onRegionChange}
 
-                            >
-                                <Marker key={index} coordinate={{
-                                    latitude: data['latlng'][0],
-                                    longitude: data['latlng'][1],
-                                }} >
-                                    <Callout>
-                                        <View style={{padding:10 }}>
-                                            <Text>{data['name']['common']}</Text>
-                                        </View>
-                                    </Callout>
-                                
-                                </Marker>
-                            </MapView>
+                                >
+                                    <Marker key={index} coordinate={{
+                                        latitude: data['latlng'][0],
+                                        longitude: data['latlng'][1],
+                                    }} >
+                                        <Callout>
+                                            <View style={{ padding: 10 }}>
+                                                <Text>{data['name']['common']}</Text>
+                                            </View>
+                                        </Callout>
+
+                                    </Marker>
+                                </MapView>
                             }
 
 
                         </View>
-                    </ScrollView>
+                    </View>
                 ))
 
             }
-        </>
+        </ScrollView >
 
 
     )
