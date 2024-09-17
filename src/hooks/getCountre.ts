@@ -10,17 +10,13 @@ export default function useGetCountre() {
     const [aCapital, setCapital] = useState('');
     const navigation = useNavigation<TabTypes>();
 
-    function pegaValor(value: React.SetStateAction<string>){
+    async function pegaValor(value: React.SetStateAction<string>){
         setCapital(value);
-    }
-    const getAll= async ()=> {
-
-        const response = await api.get(`capital ${aCapital}`);
+        const response = await api.get(`capital/${aCapital}`);
         // const response = await api.get('capital/{capital}');
         setCountries(response.data)
-     
-
     }
 
-    return {countries, getAll , setCapital, pegaValor}
+
+    return {countries, setCapital, pegaValor}
 }

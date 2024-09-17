@@ -1,63 +1,97 @@
-import { Button, Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import { useEffect, useState } from "react";
-import { getCurrentPositionAsync, LocationAccuracy, LocationObject, requestForegroundPermissionsAsync, watchPositionAsync } from "expo-location";
-import MapView, { Marker } from "react-native-maps";
+import { Alert, Dimensions, Image, PermissionsAndroid, Platform, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import useGetCountre from "../../hooks/getCountre";
+import { RouteProp, useNavigation } from "@react-navigation/native";
+import { TabNavigation } from "../../routes/tab";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import api from "../../server/api";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StackNavigation } from "../../routes/stack";
 
-export default function Countre() {
-    const { countries, getAll } = useGetCountre();
+type Props = NativeStackScreenProps<StackNavigation, 'Countre'>;
 
-    countries?.map((value, index) => {
-        console.log(value)
-    })
+export default function Countre({ route }: Props) {
+    const { capital } = route.params;
+    const [countries, setCountries] = useState([]);
+
+    const pegaValor = async () => {
+        const response = await api.get(`capital/${capital}`);
+        setCountries(response.data)
+    }
 
     useEffect(() => {
-        getAll();
-
+        // focusMap()
+        pegaValor()
+   
+        
     }, []);
 
-
+   
     return (
         <>
             {
-                countries?.map((value, index) => (
-                    <View>
+                countries?.map((data, index) => (
+                    <ScrollView key={index}  >
                         <View style={styles.top}>
                             <View style={styles.topImage}>
-                                <Image source={{ uri: value["coatOfArms"]['png'] }} resizeMode="contain"
+                                <Image source={{ uri: data["coatOfArms"]['png'] }} resizeMode="contain"
                                     height={90} width={90} />
-                                {/* <Text style={styles.bandeira}>{value["flag"]} </Text> */}
+                                {/* <Text style={styles.bandeira}>{data["flag"]} </Text> */}
                             </View>
 
                             <View style={styles.topTexts}>
-                               < Text style={styles.text}>{'País: ' + value['name']['common']}</Text>
-                                <Text style={styles.text}>{'Capital: ' + value["capital"]}</Text>
-                                <Text style={styles.text}>{'Continente: ' + value["continents"]}</Text>
-                                <Text style={styles.text}>{'Bandeira: ' + value["flag"]}</Text>
-                                <Text style={styles.text}>{'Linguagem: ' + value["languages"]['est']}</Text>
-                                <Text style={styles.text}>{'Moeda: ' + value["currencies"]["EUR"]["name"] + ' ' + value["currencies"]["EUR"]["symbol"]}</Text>
+                                < Text style={styles.text}>{'País: ' + data['name']['common']}</Text>
+                                <Text style={styles.text}>{'Capital: ' + data["capital"]}</Text>
+                                <Text style={styles.text}>{'Continente: ' + data["continents"]}</Text>
+                                <Text style={styles.text}>{'Bandeira: ' + data["flag"]}</Text>
+                                <Text style={styles.text}>{'Linguagem: ' + data["languages"]['est']}</Text>
+                                {/* <Text style={styles.text}>{'Moeda: ' + data["currencies"]["EUR"]["name"] + ' ' + data["currencies"]["EUR"]["symbol"]}</Text> */}
                             </View>
                         </View>
                         <View>
 
-                            {
-                                <MapView style={styles.map} initialRegion={{
-                                    latitude: value['latlng'][0],
-                                    longitude: value['latlng'][1],
-                                    latitudeDelta: 8,
-                                    longitudeDelta: 8
+                            { 
+                            data['latlng'] && <MapView
+                                // ref={mapView}
+                                provider={PROVIDER_GOOGLE}
+                                style={styles.map}
+                                initialRegion={{
+                                    latitude: data['latlng'][0],
+                                    longitude: data['latlng'][1],
+                                    latitudeDelta: 6,
+                                    longitudeDelta: 6
+                                }} onMapReady={() => {
+                                    Platform.OS === 'android' ?
+                                        PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+                                            .then(
+                                                () => {
+                                                    console.log('usuario aceitou')
+                                                }) : ''
+                                }}
+                                loadingEnabled={true}
+                                // onRegionChangeComplete={onRegionChange}
+
+                            >
+                                <Marker key={index} coordinate={{
+                                    latitude: data['latlng'][0],
+                                    longitude: data['latlng'][1],
                                 }} >
-                                    <Marker coordinate={{
-                                        latitude: value['latlng'][0],
-                                        longitude: value['latlng'][1],
-                                    }} />
-                                </MapView>
+                                    <Callout>
+                                        <View style={{padding:10 }}>
+                                            <Text>{data['name']['common']}</Text>
+                                        </View>
+                                    </Callout>
+                                
+                                </Marker>
+                            </MapView>
                             }
-                            {/* <ButtonTabRoutes color="blue" title="Home" screen="Home" /> */}
+
 
                         </View>
-                    </View>
+                    </ScrollView>
                 ))
+
             }
         </>
 
@@ -69,8 +103,8 @@ const styles = StyleSheet.create({
     container: {
 
     },
-    bandeira:{
-        fontSize:40
+    bandeira: {
+        fontSize: 40
     },
     map: {
         marginTop: 10,
@@ -80,8 +114,8 @@ const styles = StyleSheet.create({
     top: {
         flexDirection: "row",
         backgroundColor: "#E0E0E0",
-        justifyContent:"center",
-        alignItems:"center"
+        justifyContent: "center",
+        alignItems: "center"
     },
     topImage: {
         padding: 6,

@@ -9,11 +9,11 @@ import AllCountries from '../screens/AllCountries';
 
 const Tab = createBottomTabNavigator();
 
-export type TabNavigation ={
-  Home:undefined,
-  Login:undefined,
-  Countre:undefined
-  AllCountries:undefined
+export type TabNavigation = {
+  Home: undefined,
+  Login: undefined,
+  Countre: { capital: string }
+  AllCountries: undefined
 }
 
 export type TabTypes = BottomTabNavigationProp<TabNavigation>;
@@ -21,12 +21,11 @@ export type TabTypes = BottomTabNavigationProp<TabNavigation>;
 export default function TabComponent() {
   return (
     <NavigationContainer>
-    <Tab.Navigator initialRouteName="AllCountries">
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Login" component={Login} />
-      <Tab.Screen name="Countre" component={Countre} />
-      <Tab.Screen name="AllCountries" component={AllCountries} />
-    </Tab.Navigator>
-  </NavigationContainer>
+      <Tab.Navigator initialRouteName="AllCountries">
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Login" component={Login} />
+        <Tab.Screen name="AllCountries" component={AllCountries} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }

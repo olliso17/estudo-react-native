@@ -1,28 +1,34 @@
-import { Button, Dimensions, FlatList, Image, Pressable, SafeAreaView, ScrollView, SectionList, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import useGetAllCountries from "../../hooks/getAllcountres";
-import { useEffect } from "react";
-import useGetCountre from "../../hooks/getCountre";
+import { useCallback, useEffect, useState } from "react";
+import { TabNavigation } from "../../routes/tab";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigation } from "../../routes/stack";
+
+
+type AllCountriesScreenProp = NativeStackNavigationProp<TabNavigation, 'AllCountries'>;
 
 export default function AllCountries() {
     const { countries, getAll } = useGetAllCountries();
-    const { pegaValor } = useGetCountre();
+    const navigation = useNavigation<AllCountriesScreenProp>();
+    const [refreshing, setRefreshing] = useState(false);
 
-    // countries?.map((value) => {
-    //     console.log(value)
-    // })
-    
     useEffect(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 4000);
         getAll();
 
     }, []);
-   
+
     return (
         <View style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { }} />}>
                 {
                     countries?.map((value, index) => (
-
-                        <Pressable key={index} onPress={() => pegaValor(value["capital"])} style={styles.body}>
+                        <Pressable key={index} onPress={() => navigation.navigate('Countre', { capital: value['capital'] })} style={styles.body}>
                             <Image source={{ uri: value["coatOfArms"]['png'] != "" ? value["coatOfArms"]['png'] : value["coatOfArms"]['svg'] }} resizeMode="contain"
                                 height={40} width={40} />
                             < Text style={styles.text}>{value['name']['common']}</Text>
@@ -32,7 +38,7 @@ export default function AllCountries() {
                     ))
                 }
             </ScrollView>
-        </View>
+        </View >
 
     )
 }
@@ -53,6 +59,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         margin: 4,
+        backgroundColor: 'gray'
 
     },
     text: {
