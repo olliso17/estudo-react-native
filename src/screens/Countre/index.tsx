@@ -13,42 +13,22 @@ type Props = NativeStackScreenProps<StackNavigation, 'Countre'>;
 
 export default function Countre({ route }: Props) {
     const { capital } = route.params;
-    const [countries, setCountries] = useState([]);
-    const [data, setData] = useState();
-    const [region, setRegion] = useState({
-        latitude: '',
-        longitude: '',
-        latitudeDelta: 6,
-        longitudeDelta: 6
-    });
-
-    const pegaValor = async () => {
-        setRefresh(true)
-        const response = await api.get(`capital/${capital}`);
-        setCountries(response.data)
-     
-    }
-  
-    useFocusEffect(
-        useCallback(() => {
-            pegaValor()
-          
-        }, [capital])
-    );
-
     const [refresh, setRefresh] = useState(false);
-    const onRefresh = ()=>{
+    const{countries}= useGetCountre({capital});
+    
+    const onRefresh = () => {
         setRefresh(true)
         countries
         setRefresh(false)
 
     }
 
+
     return (
-        <ScrollView  refreshControl={<RefreshControl refreshing={refresh} onRefresh={()=>onRefresh}/>}>
+        <ScrollView refreshControl={<RefreshControl refreshing={refresh} onRefresh={() => onRefresh} />}>
             {
                 countries?.map((data, index) => (
-                    
+
                     <View key={index}  >
                         <View style={styles.top}>
                             <View style={styles.topImage}>
@@ -62,15 +42,14 @@ export default function Countre({ route }: Props) {
                                 <Text style={styles.text}>{'Capital: ' + data["capital"]}</Text>
                                 <Text style={styles.text}>{'Continente: ' + data["continents"]}</Text>
                                 <Text style={styles.text}>{'Bandeira: ' + data["flag"]}</Text>
-                                <Text style={styles.text}>{'Linguagem: ' + data["languages"]['est']}</Text>
+                                <Text style={styles.text}>{'Linguagens: ' + data["languages"]}</Text>
                                 {/* <Text style={styles.text}>{'Moeda: ' + data["currencies"]["EUR"]["name"] + ' ' + data["currencies"]["EUR"]["symbol"]}</Text> */}
                             </View>
                         </View>
                         <View>
 
                             {
-                                <MapView 
-                                    // ref={mapView}
+                                <MapView
                                     provider={PROVIDER_GOOGLE}
                                     style={styles.map}
                                     initialRegion={{
@@ -87,7 +66,6 @@ export default function Countre({ route }: Props) {
                                                     }) : ''
                                     }}
                                     loadingEnabled={true}
-                                // onRegionChangeComplete={onRegionChange}
 
                                 >
                                     <Marker key={index} coordinate={{
