@@ -1,4 +1,4 @@
-import { Button, Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Image, Pressable,  ScrollView, Text, TextInput, View } from "react-native";
 import useGetAllCountries from "../../hooks/getAllcountres";
 import {useEffect } from "react";
 import { TabNavigation } from "../../routes/tab";
@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { styles } from "./styles";
 
 type AllCountriesScreenProp = NativeStackNavigationProp<TabNavigation, 'AllCountries'>;
 
@@ -52,76 +53,3 @@ export default function AllCountries() {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-
-    },
-    scroll: {
-        width: "100%",
-    },
-    viewContainer: {
-        flexWrap: "wrap",
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center"
-    },
-    vieBody: {
-        width: "95%",
-        backgroundColor: "white",
-        height: 35,
-        margin: 4,
-        borderRadius: 5,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-
-    },
-    body: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-        width: "45%",
-        height: 130,
-        borderRadius: 10,
-        borderWidth: 1,
-        margin: 4,
-        backgroundColor: 'white'
-
-    },
-    button: {
-        alignItems: "center",
-        justifyContent: "center",
-        width: "10%",
-        borderWidth: 1,
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        borderColor: "gray",
-        height: "100%"
-    },
-    textInput: {
-        height: "100%",
-        width: "85%",
-        marginLeft: 4,
-        marginRight: 4
-    },
-    image: {
-        width: "40%",
-        // backgroundColor:"#7FC0EB",
-        height: 100,
-        borderRadius: 10,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    containerText: {
-        width: "50%",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    text: {
-        fontSize: 14,
-        fontWeight: "bold",
-
-
-    }
-})
