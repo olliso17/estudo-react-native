@@ -15,7 +15,6 @@ export default function AllCountries() {
     useEffect(() => {
 
         getAll();
-
     }, []);
 
     return (
