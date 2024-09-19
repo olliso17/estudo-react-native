@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import AllCountries from './src/screens/AllCountries';
 import Countre from './src/screens/Countre';
+import { Home } from './src/screens/Home';
 
 
 const Stack = createNativeStackNavigator();
@@ -13,8 +14,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="AllCountries">
+    <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name="AllCountries" component={AllCountries} />
+      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Countre" component={Countre}/>
     </Stack.Navigator>
   </NavigationContainer>

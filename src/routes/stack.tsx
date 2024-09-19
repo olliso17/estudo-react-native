@@ -4,7 +4,8 @@ const Stack = createNativeStackNavigator();
 
 export type StackNavigation={
   Countre: { capital: string }
-  AllCountries: undefined
+  AllCountries: undefined,
+  Home:undefined
 }
 
 export type StackTypes = NativeStackNavigationProp<StackNavigation>;

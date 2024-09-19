@@ -11,8 +11,7 @@ import { StackTypes } from "../../routes/stack";
 export default function AllCountries() {
     const { countries, getAll } = useGetAllCountries();
     const navigation = useNavigation<StackTypes>();
-    // const navigation = useNavigation<TabTypes>();
-
+    
     useEffect(() => {
 
         getAll();
