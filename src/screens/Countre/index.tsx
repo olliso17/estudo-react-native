@@ -1,30 +1,21 @@
-import {Image, PermissionsAndroid, Platform, RefreshControl, ScrollView,Text, View } from "react-native";
-import {useState } from "react";
-import MapView, { Callout, Marker, PROVIDER_GOOGLE} from "react-native-maps";
+import { Image, PermissionsAndroid, Platform, RefreshControl, ScrollView, Text, View } from "react-native";
+import { useState } from "react";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import useGetCountre from "../../hooks/getCountre";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { StackNavigation } from "../../routes/stack";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { StackNavigation } from "../../routes/stack";
 
-type Props = NativeStackScreenProps<StackNavigation, 'Countre'>;
 
-export default function Countre({ route }: Props) {
-    const { capital } = route.params;
-    const [refresh, setRefresh] = useState(false);
+export default function Countre() {
+    const route = useRoute<RouteProp<StackNavigation, 'Countre'>>()
+    const {capital} = route.params;
     const { countries } = useGetCountre({ capital });
-
-    const onRefresh = () => {
-        setRefresh(true)
-        countries
-        setRefresh(false)
-
-    }
-
 
     return (
         <LinearGradient style={styles.container} colors={['#42A5EB', "#2B6EEB"]}>
-            <ScrollView refreshControl={<RefreshControl refreshing={refresh} onRefresh={() => onRefresh} />}>
+            <ScrollView >
                 {
                     countries?.map((data, index) => (
 

@@ -1,18 +1,17 @@
-import { Image, Pressable,  ScrollView, Text, TextInput, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import useGetAllCountries from "../../hooks/getAllcountres";
-import {useEffect } from "react";
-import { TabNavigation } from "../../routes/tab";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { styles } from "./styles";
+import { StackTypes } from "../../routes/stack";
 
-type AllCountriesScreenProp = NativeStackNavigationProp<TabNavigation, 'AllCountries'>;
 
 export default function AllCountries() {
     const { countries, getAll } = useGetAllCountries();
-    const navigation = useNavigation<AllCountriesScreenProp>();
+    const navigation = useNavigation<StackTypes>();
+    // const navigation = useNavigation<TabTypes>();
 
     useEffect(() => {
 
