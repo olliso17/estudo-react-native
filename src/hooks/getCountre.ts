@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import api from "../server/api";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { TabTypes } from "../routes/tab";
 
 type Props = {
     capital: string
-}
-
-export interface Countre{
-
 }
 
 export default function useGetCountre({ capital }: Props) {

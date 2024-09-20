@@ -1,18 +1,19 @@
-import { Image, PermissionsAndroid, Platform, RefreshControl, ScrollView, Text, View } from "react-native";
+import { Image, PermissionsAndroid, Platform, Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
 import { useState } from "react";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import useGetCountre from "../../hooks/getCountre";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { StackNavigation } from "../../routes/stack";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { StackNavigation, StackTypes } from "../../routes/stack";
 
 
 export default function Countre() {
     const route = useRoute<RouteProp<StackNavigation, 'Countre'>>()
-    const {capital} = route.params;
+    const { capital } = route.params;
     const { countries } = useGetCountre({ capital });
-
+    const navigation = useNavigation<StackTypes>();
+    countries?.map((data, index) => { console.log(data['region']) })
     return (
         <LinearGradient style={styles.container} colors={['#42A5EB', "#2B6EEB"]}>
             <ScrollView >
@@ -35,6 +36,18 @@ export default function Countre() {
                                     <Text style={styles.text}>{'Linguagens: ' + data["languages"]}</Text>
                                     {/* <Text style={styles.text}>{'Moeda: ' + data["currencies"]["EUR"]["name"] + ' ' + data["currencies"]["EUR"]["symbol"]}</Text> */}
                                 </View>
+                            </View>
+                            <View>
+                                <Pressable
+                                    onPress={() => navigation.navigate("Regions", { region: data["region"] })}
+                                    style={{
+                                        borderRadius: 200,
+                                        backgroundColor: "white",
+                                        width: 400,
+                                        height: 400,
+                                        margin: 12,
+                                    }}
+                                ></Pressable>
                             </View>
                             <View>
 

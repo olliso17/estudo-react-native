@@ -8,7 +8,7 @@ export type StackNavigation = {
   Countre: { capital: string };
   AllCountries: undefined;
   Home: undefined;
-  Regions: undefined;
+  Regions:{region:string};
 };
 
 export type StackTypes = NativeStackNavigationProp<StackNavigation>;
