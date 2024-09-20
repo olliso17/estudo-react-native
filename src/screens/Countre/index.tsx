@@ -41,10 +41,9 @@ export default function Countre() {
                                 <Pressable
                                     onPress={() => navigation.navigate("Regions", { region: data["region"] })}
                                     style={{
-                                        borderRadius: 200,
                                         backgroundColor: "white",
-                                        width: 400,
-                                        height: 400,
+                                        width: 50,
+                                        height: 50,
                                         margin: 12,
                                     }}
                                 ></Pressable>
